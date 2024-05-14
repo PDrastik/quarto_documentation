@@ -1,0 +1,159 @@
+---
+title: "Website Update Documentation"
+author: "Penny and Kevin"
+date: "2024-05-14"
+format: 
+  html:
+    toc: true
+    toc-expand: true
+    toc-location: body
+editor: visual
+---
+
+### Requirements
+
+-   Github account. Request access to the IFoA repository [here](https://github.com/institute-and-faculty-of-actuaries/mlr-blog) for the blog and the MLRWP repository [here](https://github.com/orgs/MLRWP/teams/mlrwp-book) for the book. There is a desktop version of Github; alternatively, you can download Git [here](https://git-scm.com/downloads)
+
+-   Quarto. This is included with recent versions of Rstudio; if you do not already have Quarto it can be downloaded [here](https://quarto.org/docs/get-started/)
+
+-   An IDE of your choice. The following documentation will cover Rstudio and Jupyterlab
+
+### Website overview
+
+The Machine Learning in Reserving Working Party online presence takes the form of a blog and an electronic book. Both are produced using Quarto, a markdown language which permits integration with code. The process for updating both resources follows the same steps, with the only difference being the Github repository that is used.
+
+Both websites are hosted using Github Pages:
+
+-   A Github Page is a website hosted directly from a Github repository.
+
+-   Both websites include *.github.io* in their URL, indicating that they are instances of Github Pages.
+
+-   We do not use the conventional practice of creating *.html* files and uploading to a server.
+
+-   Instead, whenever an update is made to the main branch of the associated Github repository, the website will automatically update.
+
+-   The process for creating or editing pages of the website will automatically generate a set of relevant *.html* files, which can be found in the *docs* folder of the repository. Open this folder and load *index.html* or another file in a browser. The web page that is displayed is equivalent to the output that would be obtained upon rendering the associated Quarto file (*index.qmd*) from the main folder. These *.html* files can be edited independently of the Quarto documents, and if necessary could be uploaded to a server to create a website using the 'traditional' method.
+
+-   Github Pages automatically detects *index.html* in the repository and uses it for the landing page of the website.
+
+### Workflow overview
+
+Following the Git paradigm, the website can be updated by
+
+1.  Cloning the Github repository to your computer.
+
+    `git clone https://github.com/institute-and-faculty-of-actuaries/mlr-blog.git`
+
+    All commands given in this section are intended to be used in Git, which can be accessed by opening the relevant folder on your computer, right-clicking and selecting 'Open Git Bash here'.
+
+2.  Creating a new branch.
+
+    `git branch new_branch_name`
+
+3.  Editing or adding pages using Quarto (refer to the relevant section below depending on your choice of IDE)
+
+4.  Pushing changes back to the Github repository:
+
+    `git add .`
+
+    (The '.' character will pick up everything in your current folder. If you have only edited/added a few files, you can name them directly instead)
+
+    `git commit -m "added new blog post"`
+
+    Write an informative commit message, as this will be visible to other users on the Github repository.
+
+    `git push`
+
+    This will upload the changes that you've made on your local machine to the Github repository, so that they are available to others.
+
+5.  Submitting a [pull request](https://docs.github.com/en/pull-requests) on Github. If approved, the branch can be merged into main (then deleted), at which point the changes go live on the website.
+
+### Using Quarto with Rstudio
+
+1.  Open a *.qmd* file from the repository or create a new Quarto Document using the Rstudio GUI. New blog posts should be saved in a folder (you should give it a suitable name), saved within the most appropriate folder category in *mlr-blog/post*
+
+    The file can be named however you like.
+
+    Rstudio gives you the option of using a visual editor ('Visual') or editing the Quarto file, similar to markdown, directly ('Source'). The visual editor provides a helpful interface for some common syntax e.g. bold typeface, bullet points, tables, however it is not a WYSIWYG editor and you will need to work with the Quarto markdown language.
+
+2.  For a blog post to be listed on the website, it must start with a section providing metadata in YAML format. Here is an example which demonstrates the range of tags which can be detected by the post listing page (tags can be added or removed by modifying *posts.qmd*):
+
+        ---
+        title: "Title of the Blog Post"
+        date: "2024-05-14"
+        author: ["Author's name"]
+        image: image_name.png
+        categories: 
+          - research
+          - R
+        description: "This is a short description of the blog post."
+        ---
+
+    This YAML section can also be used to format the document, for example, indicating whether a table of contents should be produced.
+
+    Note the (optional) 'image' section in the code block above. The image referenced here should be saved to the same folder as the Quarto document.
+
+3.  The 'Render' button in Rstudio will create a preview of your document within the 'Viewer' pane. Assuming that you are using the default output format (*.html*), rendering will also save a *.html* file which can be viewed in your browser. Sometimes the output differs between the Viewer pane and the browser, so you should verify using the *.html* file that your document is displayed as intended. Using the render tab, you can also navigate around the website as you would with a browser window.
+
+4.  Render *posts.qmd* from the main folder of the repository so that your new page is picked up by the automatic listing capabilities of the website. Note that *.html* files can be found in the *mlr-blog/docs* folder.
+
+    It is also possible to render a Quarto document by navigating to the Terminal pane, changing to the appropriate directory using
+
+    `cd absolute_path_for_your_folder_name`
+
+    and then running
+
+    `quarto render filename.qmd`
+
+### Using Quarto with Jupyterlab
+
+1.  Open an existing *.ipynb* file or create a new Jupyter notebook. New blog posts should be saved in a folder (you should give it a suitable name), saved within the most appropriate folder category in *mlr-blog/post*
+
+    The file can be named however you like.
+
+2.  For a blog post to be listed on the website, it must start with a section providing metadata in YAML format. Here is an example which demonstrates the range of tags which can be detected by the post listing page (tags can be added or removed by modifying *posts.qmd*):
+
+        ---
+        title: "Title of the Blog Post"
+        date: "2024-05-14"
+        author: ["Author's name"]
+        image: image_name.png
+        categories: 
+          - research
+          - python
+        description: "This is a short description of the blog post."
+        ---
+
+    This YAML section can also be used to format the document, for example, indicating whether a table of contents should be produced.
+
+    Note the (optional) 'image' section in the code block above. The image referenced here should be saved to the same folder as the Quarto document.
+
+    In a Jupyter notebook, this should be added as a raw or Raw NBConvert cell.
+
+3.  Render your document by opening a Terminal (in Jupyterlab: using the File menu). Run the following command:
+
+    `quarto render file_name.ipynb`
+
+4.  Render *posts.qmd* from the main folder of the repository so that your new page is picked up by the automatic listing capabilities of the website.
+
+    Assuming that you are using the default output format (*.html*), rendering your notebook will also save a *.html* file which can be viewed in your browser. This can be viewed in the *mlr-blog/docs* folder.
+
+### Roadmap for future improvements
+
+**Branch cleanup**: Ideally, branches should be created for the purpose of a specific update and then deleted once the update has been approved and implemented. Here is a list of the branches that currently exist in the repository:
+
+| Branch name          | Active? | Owner?  |
+|----------------------|---------|---------|
+| main                 | Yes     |         |
+| nn-april2024-revised | Unknown | Gráinne |
+| mlrwp-sarah-patch-1  | Unknown | Sarah   |
+| nn-april2024         | Unknown | Gráinne |
+| test-nn-blog-v1      | No?     | Gráinne |
+
+**User documentation:** produce documentation to assist blog writers in producing compliant *.qmd* or *.ipynb* files. Consider simplifications to allow users to avoid use of Github/branching. Consider producing additional documentation to help users upskill in Quarto, for example, tutorials or boilerplate code demonstrating useful features.
+
+**Package/dependency management**
+
+**Explore possibility of .pdf output from Quarto**
+
+**Improve formatting of website e.g. CSS**
